@@ -11,6 +11,7 @@ ZSH_THEME="agnoster"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias tmux="tmux -2"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
