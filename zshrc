@@ -12,6 +12,7 @@ ZSH_THEME="agnoster"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias tmux="tmux -2"
+alias vim="mvim -v"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
