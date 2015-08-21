@@ -9,8 +9,8 @@ helper = /opt/boxen/bin/boxen-git-credential
 excludesfile = /opt/boxen/config/git/gitignore
 
 [user]
-name = Menghong Li
-email = menghong@redant.com.au
+name = MenghongLi
+email = lp_meng23@live.cn
 [color]
 	ui = auto
 	diff = auto
@@ -21,3 +21,5 @@ email = menghong@redant.com.au
   s = status
   df = diff
   co = checkout
+[rebase]
+  autosquash = true

@@ -14,6 +14,7 @@ ZSH_THEME="agnoster"
 alias tmux="tmux -2"
 alias vim="mvim -v"
 alias ggupstream="git fetch upstream && git reset --hard upstream/master"
+alias ggbranch="git branch --merged master | grep -v master | xargs git branch -d"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -52,7 +53,7 @@ alias ggupstream="git fetch upstream && git reset --hard upstream/master"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git rails jira)
+plugins=(git rails jira gitfast)
 export JIRA_URL="https://redant.jira.com"
 
 source $ZSH/oh-my-zsh.sh
