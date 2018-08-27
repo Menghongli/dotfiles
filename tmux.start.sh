@@ -1,5 +1,5 @@
 #!/bin/sh
-export PATH=$HOME/bin:/usr/local/bin:/opt/boxen/homebrew/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # abort if we're already inside a TMUX session
 [ "$TMUX" == "" ] || exit 0 

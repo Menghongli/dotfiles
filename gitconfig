@@ -1,23 +1,16 @@
-
 [hub]
-protocol = https
-
-[credential]
-helper = /opt/boxen/bin/boxen-git-credential
-
-[core]
-excludesfile = /opt/boxen/config/git/gitignore
+  protocol = https
 
 [user]
-name = MenghongLi
-email = lp_meng23@live.cn
+  name = MenghongLi
+  email = lp_meng23@live.cn
 [color]
-	ui = auto
-	diff = auto
-	status = auto
-	branch = auto
+  ui = auto
+  diff = auto
+  status = auto
+  branch = auto
 [alias]
-	lg = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lg = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   s = status
   df = diff
   co = checkout
