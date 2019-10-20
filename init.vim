@@ -234,4 +234,6 @@ let g:startify_custom_header = [
         \ '.===============================================================================.',
         \ ]
 
-set makeprg=bundle\ exec\ rspec\ -f\ QuickfixFormatter\ --require\ ~/src/rspec_support/quickfix_formatter.rb
+autocmd Filetype ruby setlocal makeprg=bundle\ exec\ rspec\ -f\ QuickfixFormatter\ --require\ ~/src/rspec_support/quickfix_formatter.rb
+autocmd Filetype cpp setlocal makeprg=w:\handmade\code\build.bat
+autocmd Filetype cpp setlocal errorformat+=\\\ %#%f(%l)\ :\ %#%t%[A-z]%#\ %m
