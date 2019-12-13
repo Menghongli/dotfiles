@@ -27,7 +27,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux'
 
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+" Plug 'plasticboy/vim-markdown'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 
@@ -38,6 +38,14 @@ Plug 'junegunn/limelight.vim'
 Plug 'neomake/neomake'
 
 Plug 'mhinz/vim-startify'
+
+Plug 'slim-template/vim-slim'
+
+Plug 'pangloss/vim-javascript'
+
+Plug 'mxw/vim-jsx'
+
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
@@ -70,11 +78,22 @@ let g:vim_markdown_math = 1
 let g:mkdp_markdown_css = '/Users/leo/node_modules/github-markdown-css/github-markdown.css'
 let g:limelight_conceal_ctermfg = 'gray'
 
-call neomake#configure#automake('nw', 750)
+call neomake#configure#automake('nw', 250)
+
+let g:neomake_javascript_local_eslint_maker = {
+          \ 'exe': getcwd().'/node_modules/.bin/eslint',
+          \ 'args': ['-f', 'compact', '--fix'],
+          \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+          \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#'
+          \ }
+let g:neomake_javascript_enabled_makers = ['local_eslint']
+autocmd User NeomakeFinished checktime
+
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 set showcmd
 set modeline
+
 " Set to auto read when a file is changed from the outside
 set autoread
 
@@ -170,6 +189,7 @@ map <leader>sa ggVG
 " Super useful when editing files in the same directory
 map <leader>vs :vs <c-r>=expand("%:p:h")<cr>/
 map <leader>s :split <c-r>=expand("%:p:h")<cr>/
+map <leader>e :e <c-r>=expand("%:p:h")<cr>/
 
 colorscheme gruvbox
 let g:gruvbox_italic=1
@@ -192,7 +212,7 @@ map <leader>p :cp<cr>
 map <leader>l :cl<cr>
 
 " Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+noremap <leader>M mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scripbble
 map <leader>q <C-w><C-v><C-l>:e ./buffer<cr>
@@ -237,3 +257,17 @@ let g:startify_custom_header = [
 autocmd Filetype ruby setlocal makeprg=bundle\ exec\ rspec\ -f\ QuickfixFormatter\ --require\ ~/src/rspec_support/quickfix_formatter.rb
 autocmd Filetype cpp setlocal makeprg=w:\handmade\code\build.bat
 autocmd Filetype cpp setlocal errorformat+=\\\ %#%f(%l)\ :\ %#%t%[A-z]%#\ %m
+
+" Run a given vim command on the results of alt from a given path.
+" See usage below.
+function! AltCommand(path, vim_command)
+  let l:alternate = system("alt " . a:path)
+  if empty(l:alternate)
+    echo "No alternate file for " . a:path . " exists!"
+  else
+    exec a:vim_command . " " . l:alternate
+  endif
+endfunction
+
+" Find the alternate file for the current path and open it
+nnoremap <leader>. :w<cr>:call AltCommand(expand('%'), ':e')<cr>
