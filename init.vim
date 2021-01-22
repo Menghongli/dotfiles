@@ -1,18 +1,19 @@
-call plug#begin(stdpath('data') . '/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
-" installed using Homebrew
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
 Plug 'vim-airline/vim-airline'
 
 "Auto complete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'honza/vim-snippets'
 Plug 'vim-ruby/vim-ruby'
 
 " Multiple Plug commands can be written in a single line using | separators
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 Plug 'morhetz/gruvbox'
 
@@ -22,6 +23,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-endwise'
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux'
@@ -31,19 +33,19 @@ Plug 'godlygeek/tabular'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 
-Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/limelight.vim'
 
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
 
 Plug 'mhinz/vim-startify'
 
 Plug 'slim-template/vim-slim'
 
-Plug 'pangloss/vim-javascript'
+Plug 'yuezk/vim-js'
 
-Plug 'mxw/vim-jsx'
+Plug 'maxmellon/vim-jsx-pretty'
 
 Plug 'tpope/vim-commentary'
 
@@ -57,37 +59,147 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-let g:fzf_action = {
-  \ 'enter': 'split' }
+" let g:fzf_action = {
+"   \ 'enter': 'split' }
 
-let g:fzf_layout = { 'down': '~10%' }
-nnoremap <silent> \ :Ag <C-R><C-W><CR>
+let g:fzf_layout = { 'down': '~20%' }
+nnoremap <silent> \ :Rg <C-R><C-W><CR>
 
 let g:airline_powerline_fonts=1
 let g:airline#extensions#branch#enabled = 1
 let g:airline_detect_paste=1
-let g:deoplete#enable_at_startup = 1
 
-call deoplete#custom#source('omni', 'functions', {
-    \ 'ruby':  'rubycomplete#Complete'
-    \})
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
 
-let g:python3_host_prog = '/usr/local/bin/python3'
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>ff  <Plug>(coc-format-selected)
+nmap <leader>ff  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for selections ranges.
+" NOTE: Requires 'textDocument/selectionRange' support from the language server.
+" coc-tsserver, coc-python are the examples of servers that support it.
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings using CoCList:
+" Show all diagnostics.
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
 let g:rainbow_active = 1
 let g:vim_markdown_math = 1
-let g:mkdp_markdown_css = '/Users/leo/node_modules/github-markdown-css/github-markdown.css'
-let g:limelight_conceal_ctermfg = 'gray'
+" let g:mkdp_markdown_css = '/Users/leo/node_modules/github-markdown-css/github-markdown.css'
+let g:vim_jsx_pretty_colorful_config = 1 " default 0
 
-call neomake#configure#automake('nw', 250)
+" call neomake#configure#automake('nw', 250)
 
-let g:neomake_javascript_local_eslint_maker = {
-          \ 'exe': getcwd().'/node_modules/.bin/eslint',
-          \ 'args': ['-f', 'compact', '--fix'],
-          \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-          \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#'
-          \ }
-let g:neomake_javascript_enabled_makers = ['local_eslint']
-autocmd User NeomakeFinished checktime
+" autocmd User NeomakeFinished checktime
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -193,6 +305,7 @@ map <leader>e :e <c-r>=expand("%:p:h")<cr>/
 
 colorscheme gruvbox
 let g:gruvbox_italic=1
+set termguicolors
 
 " Delete trailing white space on save
 func! DeleteTrailingWS()
@@ -206,6 +319,7 @@ autocmd BufWrite *.rb :call DeleteTrailingWS()
 autocmd BufWrite *.erb :call DeleteTrailingWS()
 autocmd BufWrite *.js :call DeleteTrailingWS()
 autocmd BufWrite *.yml :call DeleteTrailingWS()
+autocmd BufWrite *.conf :call DeleteTrailingWS()
 
 map <leader>n :cn<cr>
 map <leader>p :cp<cr>
@@ -254,9 +368,9 @@ let g:startify_custom_header = [
         \ '.===============================================================================.',
         \ ]
 
-autocmd Filetype ruby setlocal makeprg=bundle\ exec\ rspec\ -f\ QuickfixFormatter\ --require\ ~/src/rspec_support/quickfix_formatter.rb
-autocmd Filetype cpp setlocal makeprg=w:\handmade\code\build.bat
-autocmd Filetype cpp setlocal errorformat+=\\\ %#%f(%l)\ :\ %#%t%[A-z]%#\ %m
+" autocmd Filetype ruby setlocal makeprg=bundle\ exec\ rspec\ -f\ QuickfixFormatter\ --require\ ~/src/rspec_support/quickfix_formatter.rb
+" autocmd Filetype cpp setlocal makeprg=w:\handmade\code\build.bat
+" autocmd Filetype cpp setlocal errorformat+=\\\ %#%f(%l)\ :\ %#%t%[A-z]%#\ %m
 
 " Run a given vim command on the results of alt from a given path.
 " See usage below.
@@ -271,3 +385,5 @@ endfunction
 
 " Find the alternate file for the current path and open it
 nnoremap <leader>. :w<cr>:call AltCommand(expand('%'), ':e')<cr>
+set clipboard+=unnamedplus
+autocmd BufRead,BufNewFile *.tsx setlocal filetype=typescript.tsx
