@@ -11,6 +11,8 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'chemzqm/vim-jsx-improve'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
+Plug 'weirongxu/coc-explorer', {'do': 'yarn install --frozen-lockfile'}
 
 " Initialize plugin system
 call plug#end()
@@ -139,20 +141,22 @@ map <c-space> ?
 map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" [UNNEEDED due to tmux navigator]
+" map <C-j> <C-W>j
+" map <C-k> <C-W>k
+" map <C-h> <C-W>h
+" map <C-l> <C-W>l
 
 " More natural split opening
 set splitbelow
+set splitright
 
 map <leader>sa ggVG
 
 " Super useful when editing files in the same directory
 map <leader>vs :vs <c-r>=expand("%:p:h")<cr>/
 map <leader>s :split <c-r>=expand("%:p:h")<cr>/
-map <leader>e :e <c-r>=expand("%:p:h")<cr>/
+nmap <leader>e :CocCommand explorer<CR>
 
 set termguicolors
 
@@ -200,3 +204,4 @@ endfunction
 " Find the alternate file for the current path and open it
 nnoremap <leader>. :w<cr>:call AltCommand(expand('%'), ':e')<cr>
 autocmd BufNewFile,BufRead *.tsx,*.jsx,*.js set filetype=typescriptreact
+au BufNewFile,BufRead Jenkinsfile setf groovy

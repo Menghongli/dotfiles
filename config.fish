@@ -1,23 +1,31 @@
-source ~/.iterm2_shell_integration.fish
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
-set -g theme_color_scheme gruvbox
+set -g theme_color_scheme nord
 
-alias brew="arch -x86_64 brew"
+# pyenv init
+if command -v pyenv 1>/dev/null 2>&1
+  pyenv init - | source
+  pyenv virtualenv-init - | source
+end
+
+# nodenv init
+if command -v nodenv 1>/dev/null 2>&1
+  nodenv init - | source
+end
+
+set -a PATH (npm bin)
+set -a PATH (npm bin -g)
+
 alias vim="nvim"
 alias tmux="tmux -2"
+alias cat="bat"
 alias dcrm="docker-compose run --rm"
 alias dwbe="docker-compose run --rm web bundle exec"
 alias ggmaster="git branch --merged master | grep -v master | xargs git branch -d"
 alias ggmain="git branch --merged main | grep -v main | xargs git branch -d"
 
-source /usr/local/opt/asdf/asdf.fish
-
-set -a PATH (npm bin)
-set -a PATH (npm bin -g)
-set -g fish_user_paths "/usr/local/opt/imagemagick@6/bin" $fish_user_paths
-
-set -U ANDROID_SDK_ROOT {$HOME}/Library/Android/sdk
-set -a PATH {$ANDROID_SDK_ROOT}/emulator
-set -a PATH {$ANDROID_SDK_ROOT}/tools
-set -a PATH {$ANDROID_SDK_ROOT}/tools/bin
-set -a PATH {$ANDROID_SDK_ROOT}/platform-tools
+if not set -q TMUX
+  set -g TMUX tmux new-session -d -s base
+  eval $TMUX
+  tmux attach-session -d -t base
+end
