@@ -6,6 +6,8 @@ set -g theme_color_scheme nord
 if command -v pyenv 1>/dev/null 2>&1
   pyenv init - | source
   pyenv virtualenv-init - | source
+  set pyenv ~/.pyenv/shims/
+  set -a PATH $pyenv
 end
 
 # nodenv init
@@ -13,10 +15,16 @@ if command -v nodenv 1>/dev/null 2>&1
   nodenv init - | source
 end
 
+status --is-interactive; and rbenv init - fish | source
+
+set -a PATH ~/.local/bin
 set -a PATH (npm bin)
 set -a PATH (npm bin -g)
+set -a PATH ~/.pingpong/bin
+set -a PATH /Users/menghong/Library/Application\ Support/Coursier/bin
 
 alias vim="nvim"
+alias prv="poetry run nvim"
 alias tmux="tmux -2"
 alias cat="bat"
 alias dcrm="docker-compose run --rm"
