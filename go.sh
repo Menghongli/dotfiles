@@ -122,4 +122,4 @@ brew install --cask font-dejavu-sans-mono-nerd-font
 
 
 echo "Symbol link gitconfig..."
-ln -s ~/code/dotfiles/gitconfig ~/.gitconfig
+ln -sf ~/code/dotfiles/gitconfig ~/.gitconfig
