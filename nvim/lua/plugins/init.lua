@@ -12,12 +12,12 @@ return {
     dependencies = { {'nvim-lua/plenary.nvim'} },
   },
 
-  {
-    'rose-pine/neovim',
-    as = 'rose-pine',
+  { -- Theme inspired by Atom
+    'navarasu/onedark.nvim',
+    priority = 1000,
     config = function()
-      vim.cmd('colorscheme rose-pine')
-    end
+      vim.cmd.colorscheme 'onedark'
+    end,
   },
 
   {
@@ -62,4 +62,7 @@ return {
   },
   { 'numToStr/Navigator.nvim' },
   { 'numToStr/Comment.nvim' },
+
+  -- Useful plugin to show you pending keybinds.
+  { 'folke/which-key.nvim', opts = {} },
 }
