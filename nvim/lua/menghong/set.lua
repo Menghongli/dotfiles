@@ -28,8 +28,6 @@ vim.opt.scrolloff = 8
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = "160"
 
-vim.g.mapleader = ","
-
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
@@ -41,5 +39,5 @@ vim.opt.modeline = true
 
 vim.opt.lazyredraw = true
 
-vim.g.python3_host_prog = "/Users/menghong/.pyenv/versions/3.9.4/bin/python3.9"
-vim.g.ruby_host_prog = "/Users/menghong/.rbenv/versions/3.1.2/bin/ruby"
+vim.g.python3_host_prog = "~/.pyenv/shims/python"
+vim.g.ruby_host_prog = "~/.rbenv/shims/ruby"

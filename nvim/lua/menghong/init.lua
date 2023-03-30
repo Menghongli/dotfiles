@@ -1,3 +1,3 @@
-require("menghong.packer")
+require("menghong.lazy")
 require("menghong.set")
 require("menghong.remap")
