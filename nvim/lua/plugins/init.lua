@@ -1,20 +1,50 @@
 return {
+  -- Git related plugins
+  'tpope/vim-fugitive',
+  'tpope/vim-rhubarb',
+
+  -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-sleuth',
+
   {
-      'nvim-telescope/telescope.nvim', tag = '0.1.0',
-      -- or                            , branch = '0.1.x',
-      dependencies = { {'nvim-lua/plenary.nvim'} },
+    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+    -- or                            , branch = '0.1.x',
+    dependencies = { {'nvim-lua/plenary.nvim'} },
   },
-  
+
   {
-      'rose-pine/neovim',
-      as = 'rose-pine',
-      config = function()
-  	  vim.cmd('colorscheme rose-pine')
-      end
+    'rose-pine/neovim',
+    as = 'rose-pine',
+    config = function()
+      vim.cmd('colorscheme rose-pine')
+    end
   },
-  
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  { 'mbbill/undotree' },
+
+  {
+    -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    config = function()
+      pcall(require('nvim-treesitter.install').update { with_sync = true })
+    end,
+  },
+
+  { -- Autocompletion
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-buffer',       -- Optional
+      'hrsh7th/cmp-path',         -- Optional
+      'rafamadriz/friendly-snippets', -- Optional
+    },
+  },
+
+
   {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v1.x',
@@ -28,18 +58,6 @@ return {
         end,
       },
       {'williamboman/mason-lspconfig.nvim'}, -- Optional
-  
-      -- Autocompletion
-      {'hrsh7th/nvim-cmp'},         -- Required
-      {'hrsh7th/cmp-nvim-lsp'},     -- Required
-      {'hrsh7th/cmp-buffer'},       -- Optional
-      {'hrsh7th/cmp-path'},         -- Optional
-      {'saadparwaiz1/cmp_luasnip'}, -- Optional
-      {'hrsh7th/cmp-nvim-lua'},     -- Optional
-  
-      -- Snippets
-      {'L3MON4D3/LuaSnip'},             -- Required
-      {'rafamadriz/friendly-snippets'}, -- Optional
     }
   },
   { 'numToStr/Navigator.nvim' },

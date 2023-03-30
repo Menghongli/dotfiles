@@ -15,6 +15,8 @@ vim.opt.wb = false
 vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.smartindent = true
+vim.opt.breakindent = true
+
 vim.opt.wrap = false
 
 vim.opt.termguicolors = true
@@ -41,3 +43,5 @@ vim.opt.lazyredraw = true
 
 vim.g.python3_host_prog = "~/.pyenv/shims/python"
 vim.g.ruby_host_prog = "~/.rbenv/shims/ruby"
+
+vim.opt.clipboard = "unnamedplus"

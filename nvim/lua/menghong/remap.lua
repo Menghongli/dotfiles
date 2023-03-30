@@ -36,3 +36,9 @@ vim.keymap.set({'n', 't'}, '<C-h>', '<CMD>NavigatorLeft<CR>')
 vim.keymap.set({'n', 't'}, '<C-l>', '<CMD>NavigatorRight<CR>')
 vim.keymap.set({'n', 't'}, '<C-k>', '<CMD>NavigatorUp<CR>')
 vim.keymap.set({'n', 't'}, '<C-j>', '<CMD>NavigatorDown<CR>')
+
+-- Diagnostic keymaps
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
