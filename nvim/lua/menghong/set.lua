@@ -45,3 +45,5 @@ vim.g.python3_host_prog = "~/.pyenv/shims/python"
 vim.g.ruby_host_prog = "~/.rbenv/shims/ruby"
 
 vim.opt.clipboard = "unnamedplus"
+
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
